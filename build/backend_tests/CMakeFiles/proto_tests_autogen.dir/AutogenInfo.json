@@ -1,0 +1,98 @@
+{
+	"BUILD_DIR" : "/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/build/backend_tests/proto_tests_autogen",
+	"CMAKE_BINARY_DIR" : "/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/build/backend_tests",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/backend_tests",
+	"CMAKE_EXECUTABLE" : "/usr/bin/cmake",
+	"CMAKE_LIST_FILES" : 
+	[
+		"/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/backend_tests/CMakeLists.txt",
+		"/usr/share/cmake-3.22/Modules/FindThreads.cmake",
+		"/usr/share/cmake-3.22/Modules/CheckLibraryExists.cmake",
+		"/usr/share/cmake-3.22/Modules/CheckIncludeFileCXX.cmake",
+		"/usr/share/cmake-3.22/Modules/CheckCXXSourceCompiles.cmake",
+		"/usr/share/cmake-3.22/Modules/Internal/CheckSourceCompiles.cmake",
+		"/usr/share/cmake-3.22/Modules/CheckIncludeFile.cxx.in",
+		"/usr/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake",
+		"/usr/share/cmake-3.22/Modules/FindPackageMessage.cmake"
+	],
+	"CMAKE_SOURCE_DIR" : "/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend",
+	"DEP_FILE" : "",
+	"DEP_FILE_RULE_NAME" : "",
+	"HEADERS" : [],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/build/backend_tests/proto_tests_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/build/backend_tests/proto_tests_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : [ "GTEST_LANGUAGE_CXX11" ],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/backend_tests/googletest/googletest",
+		"/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/backend_tests/googletest/googletest/include",
+		"/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/backend_tests/googletest/googlemock",
+		"/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/backend_tests/googletest/googlemock/include",
+		"/usr/include/c++/11",
+		"/usr/include/x86_64-linux-gnu/c++/11",
+		"/usr/include/c++/11/backward",
+		"/usr/lib/gcc/x86_64-linux-gnu/11/include",
+		"/usr/local/include",
+		"/usr/include/x86_64-linux-gnu",
+		"/usr/include"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE", "Q_NAMESPACE_EXPORT" ],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : false,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/usr/bin/c++",
+		"-dM",
+		"-E",
+		"-c",
+		"/usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/build/backend_tests/proto_tests_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 4,
+	"PARSE_CACHE_FILE" : "/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/build/backend_tests/CMakeFiles/proto_tests_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/home/coco/anaconda3/bin/moc",
+	"QT_UIC_EXECUTABLE" : "",
+	"QT_VERSION_MAJOR" : 5,
+	"QT_VERSION_MINOR" : 15,
+	"SETTINGS_FILE" : "/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/build/backend_tests/CMakeFiles/proto_tests_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/backend_tests/googletest/googlemock/src/gmock-all.cc",
+			"MU",
+			null
+		],
+		[
+			"/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/backend_tests/googletest/googletest/src/gtest-all.cc",
+			"MU",
+			null
+		],
+		[
+			"/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/backend_tests/main.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/backend_tests/tst_proto_tests.cpp",
+			"MU",
+			null
+		]
+	],
+	"UIC_OPTIONS" : [],
+	"UIC_SEARCH_PATHS" : [],
+	"UIC_SKIP" : [],
+	"UIC_UI_FILES" : [],
+	"VERBOSITY" : 0
+}
