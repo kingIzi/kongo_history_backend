@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/proto_tests.dir/proto_tests_autogen/mocs_compilation.cpp.o CMakeFiles/proto_tests.dir/main.cpp.o CMakeFiles/proto_tests.dir/tst_proto_tests.cpp.o CMakeFiles/proto_tests.dir/googletest/googletest/src/gtest-all.cc.o CMakeFiles/proto_tests.dir/googletest/googlemock/src/gmock-all.cc.o -o proto_tests 
