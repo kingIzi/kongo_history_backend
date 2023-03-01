@@ -9,6 +9,7 @@
 #include <QList>
 #include <QUrl>
 #include <QObject>
+#include <QPair>
 
 class Request : public QObject{
 	Q_OBJECT
@@ -43,7 +44,7 @@ public:
 	QNetworkReply* performDelete(const QNetworkRequest& request) const;
 
 	//helper
-	const QUrl buildUrl(const QList<std::pair<QString,QString>>& queries,const QString& path) const;
+	const QUrl buildUrl(const QList<QPair<QString,QString>>& queries,const QString& path) const;
 signals:
 	void response(const QJsonDocument httpDataResponse); 
 public slots:

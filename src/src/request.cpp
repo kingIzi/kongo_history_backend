@@ -1,12 +1,14 @@
 #include "request.hpp"
 
+#include <algorithm>
+
 #include <QRegularExpression>
 #include <QDebug>
+#include <QUrlQuery>
 
 //init static members
 
 const char* Request::URL_FORMAT_REGEX = "^(https?:\/\/)?[0-9a-z]+\.[-_0-9a-z]+\.[0-9a-z]+$";
-
 
 //constructors
 
@@ -111,8 +113,25 @@ QNetworkReply* Request::performDelete(const QNetworkRequest& request) const {
 //helpers
 
 //uses query params and a valid path to build a url (endpoint)
-const QUrl Request::buildUrl(const QList<std::pair<QString, QString>>& queries, const QString& path) const {
+const QUrl Request::buildUrl(const QList<QPair<QString, QString>>& queries, const QString& path) const {
+	if (this->baseUrl.isEmpty())
+		throw std::invalid_argument("Error! base url is empty");
 
+	const auto removeMissingQueryItems = [](const QPair<QString, QString>& value) {
+		return value.first != nullptr && !value.first.isEmpty() && value.second != nullptr
+		       && !value.second.isEmpty();
+	};
+	QList<QPair<QString, QString>> queryItems;
+	std::copy_if(queries.begin(),queries.end(),std::back_inserter(queryItems),removeMissingQueryItems);
+	
+	QUrl endpoint(this->baseUrl);
+	endpoint.setPath(path);
+	if (!queryItems.isEmpty()){
+		QUrlQuery query;
+		query.setQueryItems(queryItems);
+		endpoint.setQuery(query);
+	}
+	return endpoint;
 }
 
 //slots

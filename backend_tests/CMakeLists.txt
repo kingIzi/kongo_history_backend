@@ -11,13 +11,24 @@ add_definitions(-DGTEST_LANGUAGE_CXX11)
 
 find_package(Threads REQUIRED)
 
+#ubuntu GOOGLETEST_DIR = /home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/backend_tests/googletest
+#windows GOOGLETEST_DIR = C:/Users/scott/OneDrive/Documents/Development/c++/kongo_history_backend/backend_tests/googletest
+
+if (WIN32)
+    set(GTEST_DIR C:/Users/scott/OneDrive/Documents/Development/c++/kongo_history_backend/backend_tests/googletest)
+endif (WIN32)
+
+if (UNIX)
+    set(GTEST_DIR /home/coco/Documents/c++/projects/PERSONAL/kongo_history_backend/backend_tests/googletest)
+endif (UNIX)
+
 if ($ENV{GOOGLETEST_DIR})
     set(GOOGLETEST_DIR $ENV{GOOGLETEST_DIR})
 else ()
-    if (NOT "C:/Users/scott/OneDrive/Documents/Development/c++/kongo_history_backend/backend_tests/googletest" STREQUAL "")
+    if (NOT ${GTEST_DIR} STREQUAL "")
         message(WARNING "Using googletest src dir specified at Qt Creator wizard")
     endif ()
-    set(GOOGLETEST_DIR "C:/Users/scott/OneDrive/Documents/Development/c++/kongo_history_backend/backend_tests/googletest")
+    set(GOOGLETEST_DIR ${GTEST_DIR})
 endif ()
 if (EXISTS ${GOOGLETEST_DIR})
     set(GTestSrc ${GOOGLETEST_DIR}/googletest)

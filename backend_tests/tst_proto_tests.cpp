@@ -135,7 +135,7 @@ TEST_F(BuildUrlTests, emptyList) {
     const QString baseUrl = "http://localhost:8084";
     const QString path = "/test/path";
     const QString expected = "http://localhost:8084/test/path";
-    QList<std::pair<QString, QString>> queries = (QList<std::pair<QString, QString>>) {};
+    QList<QPair<QString, QString>> queries = (QList<QPair<QString, QString>>) {};
     this->request_ptr = std::make_unique<Request>(baseUrl);
     EXPECT_NO_THROW(this->request_ptr->buildUrl(queries, path));
     EXPECT_EQ(this->request_ptr->buildUrl(queries, path).toString(), expected);
@@ -145,7 +145,7 @@ TEST_F(BuildUrlTests, emptyList) {
 TEST_F(BuildUrlTests, invalidBaseUrl) {
     const QString baseUrl = "http://localhost:8084 ";
     const QString path = "/test/path";
-    QList<std::pair<QString, QString>> queries = (QList<std::pair<QString, QString>>) {};
+    QList<QPair<QString, QString>> queries = (QList<QPair<QString, QString>>) {};
     this->request_ptr = std::make_unique<Request>(baseUrl);
     EXPECT_THROW(this->request_ptr->buildUrl(queries, path), std::invalid_argument);
 }
@@ -154,9 +154,9 @@ TEST_F(BuildUrlTests, queriesMissingKeysAtFirst) {
     const QString baseUrl = "http://localhost:8084";
     const QString path = "/test/path";
     const QString expected = "http://localhost:8084/test/path?key=value";
-    QList<std::pair<QString, QString>> queries = (QList<std::pair<QString, QString>>) {
-        std::make_pair("", "value"),
-            std::make_pair("key", "value")
+    QList<QPair<QString, QString>> queries = (QList<QPair<QString, QString>>) {
+        QPair("", "value"),
+                  QPair("key", "value")
     };
     this->request_ptr = std::make_unique<Request>(baseUrl);
     EXPECT_NO_THROW(this->request_ptr->buildUrl(queries, path));
@@ -168,10 +168,10 @@ TEST_F(BuildUrlTests, queriesMissingKeysAtEnd) {
     const QString baseUrl = "http://localhost:8084";
     const QString path = "/test/path";
     const QString expected = "http://localhost:8084/test/path?key=value&data=sample";
-    QList<std::pair<QString, QString>> queries = (QList<std::pair<QString, QString>>) {
-        std::make_pair("key", "value"),
-            std::make_pair("data", "sample"),
-            std::make_pair("key", "")
+    QList<QPair<QString, QString>> queries = (QList<QPair<QString, QString>>) {
+        QPair("key", "value"),
+                  QPair("data", "sample"),
+                  QPair("key", "")
     };
     this->request_ptr = std::make_unique<Request>(baseUrl);
     EXPECT_NO_THROW(this->request_ptr->buildUrl(queries, path));
@@ -182,12 +182,12 @@ TEST_F(BuildUrlTests, queriesMissingKeysAtEnd) {
 TEST_F(BuildUrlTests, queriesMissingKeysAtMiddle) {
     const QString baseUrl = "http://localhost:8084";
     const QString path = "/test/path";
-    const QString expected = "http://localhost:8084/test/path?key=value&sample=data&home=tanzania";
-    QList<std::pair<QString, QString>> queries = (QList<std::pair<QString, QString>>) {
-        std::make_pair("key", "value"),
-            std::make_pair("data", ""),
-            std::make_pair("home", "tanzania"),
-            std::make_pair("sample", "data")
+    const QString expected = "http://localhost:8084/test/path?key=value&home=tanzania&sample=data";
+    QList<QPair<QString, QString>> queries = (QList<QPair<QString, QString>>) {
+        QPair("key", "value"),
+                  QPair("data", ""),
+                  QPair("home", "tanzania"),
+                  QPair("sample", "data")
     };
     this->request_ptr = std::make_unique<Request>(baseUrl);
     EXPECT_NO_THROW(this->request_ptr->buildUrl(queries, path));
@@ -199,8 +199,8 @@ TEST_F(BuildUrlTests, queriesCorrectFormat) {
     const QString baseUrl = "http://localhost:8084";
     const QString path = "/test/path";
     const QString expected = "http://localhost:8084/test/path?key=value";
-    QList<std::pair<QString, QString>> queries = (QList<std::pair<QString, QString>>) {
-        std::make_pair("key", "value")
+    QList<QPair<QString, QString>> queries = (QList<QPair<QString, QString>>) {
+        QPair("key", "value")
     };
     this->request_ptr = std::make_unique<Request>(baseUrl);
     EXPECT_NO_THROW(this->request_ptr->buildUrl(queries, path));
@@ -212,10 +212,10 @@ TEST_F(BuildUrlTests, queriesInvalidQueries) {
     const QString baseUrl = "http://localhost:8084";
     const QString path = "/test/path";
     const QString expected = "http://localhost:8084/test/path";
-    QList<std::pair<QString, QString>> queries = (QList<std::pair<QString, QString>>) {
-        std::make_pair("key", ""),
-        std::make_pair("", ""),
-        std::make_pair("", "value"),
+    QList<QPair<QString, QString>> queries = (QList<QPair<QString, QString>>) {
+        QPair("key", ""),
+                  QPair("", ""),
+                  QPair("", "value")
     };
     this->request_ptr = std::make_unique<Request>(baseUrl);
     EXPECT_NO_THROW(this->request_ptr->buildUrl(queries, path));
