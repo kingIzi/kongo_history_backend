@@ -68,46 +68,28 @@ const bool Request::getIsOperating() const {
 
 //make network requests
 
-//sets the headers required for the GET request and authenticates with dToken
-const QNetworkRequest Request::makeGetRequest(const QUrl& url, const QString& idToken) const {
+QNetworkReply* Request::makeMultiPartPostRequest(const QUrl& url, const QString& idToken, const QJsonDocument& document) const {
 
 }
 
-//sets the headers required for the POST request and authenticates with dToken
-const QNetworkRequest Request::makePostRequest(const QUrl& url, const QString& idToken) const {
+QNetworkReply* Request::makeMultiPutPostRequest(const QUrl& url, const QString& idToken, const QJsonDocument& document) const {
+	
+}
+
+QNetworkReply* Request::makeJsonPostRequest(const QUrl& url, const QString& idToken,const QJsonDocument& document) const{
 
 }
 
-//sets the headers required for the PUT request and authenticates with dToken
-const QNetworkRequest Request::makePutRequest(const QUrl& url, const QString& idToken) const {
+QNetworkReply* Request::makeJsonPutRequest(const QUrl& url, const QString& idToken,const QJsonDocument& document) const{
 
 }
 
-//sets the headers required for the DELETE request and authenticates with dToken
-const QNetworkRequest Request::makeDeleteRequest(const QUrl& url, const QString& idToken) const {
+QNetworkReply* Request::makeGetRequest(const QUrl& url,const QString& idToken) const{
 
 }
 
-//peform network request
-
-//perform a GET request to the server and returns a reply
-QNetworkReply* Request::performGet(const QNetworkRequest& request) const {
-
-}
-
-//perform a POST request to the server with body as payload
-QNetworkReply* Request::performPost(const QNetworkRequest& request, const QJsonDocument& body) const {
-
-}
-
-//perform a PUT request to the server with body as payload
-QNetworkReply* Request::performPut(const QNetworkRequest& request, const QJsonDocument& body) const {
-
-}
-
-//perform a DELETE request to the server and returns a reply
-QNetworkReply* Request::performDelete(const QNetworkRequest& request) const {
-
+QNetworkReply* Request::makeDeleteRequest(const QUrl& url,const QString& idToken) const{
+	
 }
 
 //helpers
@@ -122,16 +104,22 @@ const QUrl Request::buildUrl(const QList<QPair<QString, QString>>& queries, cons
 		       && !value.second.isEmpty();
 	};
 	QList<QPair<QString, QString>> queryItems;
-	std::copy_if(queries.begin(),queries.end(),std::back_inserter(queryItems),removeMissingQueryItems);
-	
+	std::copy_if(queries.begin(), queries.end(), std::back_inserter(queryItems), removeMissingQueryItems);
+
 	QUrl endpoint(this->baseUrl);
 	endpoint.setPath(path);
-	if (!queryItems.isEmpty()){
+	if (!queryItems.isEmpty()) {
 		QUrlQuery query;
 		query.setQueryItems(queryItems);
 		endpoint.setQuery(query);
 	}
 	return endpoint;
+}
+
+const QByteArray Request::getRawJsonFromDocument(const QJsonDocument& document) const {
+	if (document.isEmpty())
+		return QByteArray();
+	return ((QByteArray) document.toJson()).insert(0,"form-data; ");
 }
 
 //slots

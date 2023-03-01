@@ -10,8 +10,13 @@
 #include <QUrl>
 #include <QObject>
 #include <QPair>
+#include <QByteArray>
 
-class Request : public QObject{
+#include <QJsonObject>
+#include <QJsonValue>
+
+
+class Request : public QObject {
 	Q_OBJECT
 private:
 	QString baseUrl;
@@ -20,7 +25,7 @@ private:
 	static const char* URL_FORMAT_REGEX;
 public:
 	//constructor destructor
-	explicit Request(const QString& baseUrl,QObject* parent = nullptr);
+	explicit Request(const QString& baseUrl, QObject* parent = nullptr);
 	~Request();
 
 	//Getters & Setters
@@ -32,23 +37,28 @@ public:
 	const bool getIsOperating() const;
 
 	//make request
-	const QNetworkRequest makeGetRequest(const QUrl& url,const QString& idToken) const;
-	const QNetworkRequest makePostRequest(const QUrl& url,const QString& idToken) const;
-	const QNetworkRequest makePutRequest(const QUrl& url,const QString& idToken) const;
-	const QNetworkRequest makeDeleteRequest(const QUrl& url,const QString& idToken) const;
 
-	//peform request
-	QNetworkReply* performGet(const QNetworkRequest& request) const;
-	QNetworkReply* performPost(const QNetworkRequest& request,const QJsonDocument& body) const;
-	QNetworkReply* performPut(const QNetworkRequest& request,const QJsonDocument& body) const;
-	QNetworkReply* performDelete(const QNetworkRequest& request) const;
+	QNetworkReply* makeMultiPartPostRequest(const QUrl& url, const QString& idToken,
+	                                        const QJsonDocument& document) const;
+
+	QNetworkReply* makeMultiPutPostRequest(const QUrl& url, const QString& idToken,
+	                                       const QJsonDocument& document) const;
+
+	QNetworkReply* makeJsonPostRequest(const QUrl& url, const QString& idToken,
+	                                   const QJsonDocument& document) const;
+
+	QNetworkReply* makeJsonPutRequest(const QUrl& url, const QString& idToken,
+	                                  const QJsonDocument& document) const;
+	QNetworkReply* makeGetRequest(const QUrl& url, const QString& idToken) const;
+	QNetworkReply* makeDeleteRequest(const QUrl& url, const QString& idToken) const;
 
 	//helper
-	const QUrl buildUrl(const QList<QPair<QString,QString>>& queries,const QString& path) const;
+	const QUrl buildUrl(const QList<QPair<QString, QString>>& queries, const QString& path) const;
+	const QByteArray getRawJsonFromDocument(const QJsonDocument& document) const;
 signals:
-	void response(const QJsonDocument httpDataResponse); 
+	void response(const QJsonDocument httpDataResponse);
 public slots:
 	void requestFinished(const QNetworkReply* reply); //emits Request::response(QJsonDocument)
-	void uploadProgressChanged(qint64 bytesReceived,qint64 bytesTotal);
-	void downloadProgessChanged(qint64 bytesReceived,qint64 bytesTotal);
+	void uploadProgressChanged(qint64 bytesReceived, qint64 bytesTotal);
+	void downloadProgessChanged(qint64 bytesReceived, qint64 bytesTotal);
 };
