@@ -1,3 +1,0 @@
-C:\Qt\Tools\CMake_64\bin\cmake.exe -E rm -f CMakeFiles\proto_tests.dir/objects.a
-C:\Qt\Tools\mingw1120_64\bin\ar.exe qc CMakeFiles\proto_tests.dir/objects.a @CMakeFiles\proto_tests.dir\objects1.rsp
-C:\Qt\Tools\mingw1120_64\bin\c++.exe -Wl,--whole-archive CMakeFiles\proto_tests.dir/objects.a -Wl,--no-whole-archive -o proto_tests.exe -Wl,--out-implib,libproto_tests.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\proto_tests.dir\linklibs.rsp

@@ -1,3 +1,0 @@
-# Hashes of file build rules.
-c6028074a673c00c782c4c32e2d25533 CMakeFiles/kongo_history_backend_autogen
-dbc139fec838587dc584e1c5a7b37440 backend_tests/CMakeFiles/proto_tests_autogen
