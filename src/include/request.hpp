@@ -14,6 +14,7 @@
 
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QJsonArray>
 
 
 class Request : public QObject {
