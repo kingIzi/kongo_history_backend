@@ -293,7 +293,7 @@ TEST_F(MakeRequestTests,multipartPostEmptyFilePartValidData){
 
     const auto url = this->request_ptr->buildUrl({},path);
     EXPECT_NO_THROW(this->request_ptr->makeMultiPartPostRequest(url,idToken,document));
-    EXPECT_TRUE(this->request_ptr->makeMultiPartPostRequest(url,idToken,document));
+    EXPECT_FALSE(this->request_ptr->makeMultiPartPostRequest(url,idToken,document));
 }
 
 TEST_F(MakeRequestTests,multipartUndefinedFilePart){
@@ -315,7 +315,7 @@ TEST_F(MakeRequestTests,multipartPostInvalidFilePath){
     QJsonObject object; 
     object.insert("key","value");
     QJsonObject filesObj; 
-    filesObj.insert("thumbnail","C:/Users/scott/OneDrive/Documents/Development/c++/kongo_history_backend/ain.cpp");
+    filesObj.insert("thumbnail","/home/coco/Downloads/REMASTERED (1).png");
     object.insert("files",filesObj);
 
     const QJsonDocument document(object);
@@ -331,7 +331,7 @@ TEST_F(MakeRequestTests,multipartPostValidFilePath){
     QJsonObject object; 
     object.insert("key","value");
     QJsonObject filesObj; 
-    filesObj.insert("thumbnail","C:/Users/scott/OneDrive/Documents/Development/c++/kongo_history_backend/main.cpp");
+    filesObj.insert("thumbnail","/home/coco/Downloads/AU-PAY REMASTERED (1).png");
     object.insert("files",filesObj);
 
     const QJsonDocument document(object);
@@ -339,5 +339,91 @@ TEST_F(MakeRequestTests,multipartPostValidFilePath){
     const auto url = this->request_ptr->buildUrl({},path);
     EXPECT_NO_THROW(this->request_ptr->makeMultiPartPostRequest(url,idToken,document));
     EXPECT_TRUE(this->request_ptr->makeMultiPartPostRequest(url,idToken,document));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+TEST_F(MakeRequestTests,multipartPutEmptyIdToken){
+    const auto path = "/post";
+    const QString idToken = "";
+    QJsonObject object; 
+    object.insert("key","value");
+    const QJsonDocument document(object);
+
+    const auto url = this->request_ptr->buildUrl({},path);
+    EXPECT_THROW(this->request_ptr->makeMultiPutRequest(url,idToken,document),std::runtime_error);
+}
+
+TEST_F(MakeRequestTests,multipartPutEmptyDocument){
+    const auto path = "/post";
+    const QString idToken = "eyJ0eXAiOiJKV1QiLCJraWQiOiJyaWpwdHZxYnlrZXF4c2F0IiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2F1LWNvbGxlY3QuY29tIiwiYXVkIjoiQVVfQ09MTEVDVCIsImV4cCI6MTY3NzY3OTQ1OSwianRpIjoiMl80VnctWFY0N0I2bzNCOFZBYjFMZyIsImlhdCI6MTY3NzY3NzY1OSwibmJmIjoxNjc3Njc3NTM5LCJzdWIiOiJhZG1pbjEyMzQiLCJzY29wZSI6bnVsbCwiYXBwcyI6W119.Hji_YpA6FXpMT75hqB4oe_tKhlwyx_rA6PJ2ermpAIvUf8gDG1YE-nB3Wuotk8K2ptkA4GjmSBb5QH4Zx9dxgXf-ER3BEiJOl9fAN2KK9XBEEefuFKHvTmyr4GhYJytwMABcojdVTuUricgdrMbKRdm9WnenV5PXwu_Sv0ezMjN5mwHFxECzNf22Qjlv-9rty8WiPgNoZ7e_6dMJcoVO1f6URYWzE74PbY_t2V1_2B77G06JhlK-KV_rGQnzZ0uPbOi7HnkT2Zs2b1w12yrYQQlUU0cTfFD6PKeuSPpkYSTwioRNiGW3mfFnPiIA3_A20r7KnGoFgXmkfdGicyLCOg";
+    QJsonObject object; 
+    object.insert("key","value");
+    const QJsonDocument document;
+
+    const auto url = this->request_ptr->buildUrl({},path);
+    EXPECT_NO_THROW(this->request_ptr->makeMultiPutRequest(url,idToken,document));
+    EXPECT_FALSE(this->request_ptr->makeMultiPutRequest(url,idToken,document));
+}
+
+TEST_F(MakeRequestTests,multipartPutEmptyFilePartValidData){
+    const auto path = "/post";
+    const QString idToken = "eyJ0eXAiOiJKV1QiLCJraWQiOiJyaWpwdHZxYnlrZXF4c2F0IiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2F1LWNvbGxlY3QuY29tIiwiYXVkIjoiQVVfQ09MTEVDVCIsImV4cCI6MTY3NzY3OTQ1OSwianRpIjoiMl80VnctWFY0N0I2bzNCOFZBYjFMZyIsImlhdCI6MTY3NzY3NzY1OSwibmJmIjoxNjc3Njc3NTM5LCJzdWIiOiJhZG1pbjEyMzQiLCJzY29wZSI6bnVsbCwiYXBwcyI6W119.Hji_YpA6FXpMT75hqB4oe_tKhlwyx_rA6PJ2ermpAIvUf8gDG1YE-nB3Wuotk8K2ptkA4GjmSBb5QH4Zx9dxgXf-ER3BEiJOl9fAN2KK9XBEEefuFKHvTmyr4GhYJytwMABcojdVTuUricgdrMbKRdm9WnenV5PXwu_Sv0ezMjN5mwHFxECzNf22Qjlv-9rty8WiPgNoZ7e_6dMJcoVO1f6URYWzE74PbY_t2V1_2B77G06JhlK-KV_rGQnzZ0uPbOi7HnkT2Zs2b1w12yrYQQlUU0cTfFD6PKeuSPpkYSTwioRNiGW3mfFnPiIA3_A20r7KnGoFgXmkfdGicyLCOg";
+    QJsonObject object; 
+    object.insert("key","value");
+    QJsonObject filesObj; 
+    filesObj.insert("thumbnail","");
+    object.insert("files",filesObj);
+
+    const QJsonDocument document(object);
+
+    const auto url = this->request_ptr->buildUrl({},path);
+    EXPECT_NO_THROW(this->request_ptr->makeMultiPutRequest(url,idToken,document));
+    EXPECT_FALSE(this->request_ptr->makeMultiPutRequest(url,idToken,document));
+}
+
+TEST_F(MakeRequestTests,multipartPutUndefinedFilePart){
+    const auto path = "/post";
+    const QString idToken = "eyJ0eXAiOiJKV1QiLCJraWQiOiJyaWpwdHZxYnlrZXF4c2F0IiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2F1LWNvbGxlY3QuY29tIiwiYXVkIjoiQVVfQ09MTEVDVCIsImV4cCI6MTY3NzY3OTQ1OSwianRpIjoiMl80VnctWFY0N0I2bzNCOFZBYjFMZyIsImlhdCI6MTY3NzY3NzY1OSwibmJmIjoxNjc3Njc3NTM5LCJzdWIiOiJhZG1pbjEyMzQiLCJzY29wZSI6bnVsbCwiYXBwcyI6W119.Hji_YpA6FXpMT75hqB4oe_tKhlwyx_rA6PJ2ermpAIvUf8gDG1YE-nB3Wuotk8K2ptkA4GjmSBb5QH4Zx9dxgXf-ER3BEiJOl9fAN2KK9XBEEefuFKHvTmyr4GhYJytwMABcojdVTuUricgdrMbKRdm9WnenV5PXwu_Sv0ezMjN5mwHFxECzNf22Qjlv-9rty8WiPgNoZ7e_6dMJcoVO1f6URYWzE74PbY_t2V1_2B77G06JhlK-KV_rGQnzZ0uPbOi7HnkT2Zs2b1w12yrYQQlUU0cTfFD6PKeuSPpkYSTwioRNiGW3mfFnPiIA3_A20r7KnGoFgXmkfdGicyLCOg";
+    QJsonObject object; 
+    object.insert("key","value");
+
+    const QJsonDocument document(object);
+
+    const auto url = this->request_ptr->buildUrl({},path);
+    EXPECT_NO_THROW(this->request_ptr->makeMultiPutRequest(url,idToken,document));
+    EXPECT_TRUE(this->request_ptr->makeMultiPutRequest(url,idToken,document));
+}
+
+TEST_F(MakeRequestTests,multipartPutInvalidFilePath){
+    const auto path = "/post";
+    const QString idToken = "eyJ0eXAiOiJKV1QiLCJraWQiOiJyaWpwdHZxYnlrZXF4c2F0IiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2F1LWNvbGxlY3QuY29tIiwiYXVkIjoiQVVfQ09MTEVDVCIsImV4cCI6MTY3NzY3OTQ1OSwianRpIjoiMl80VnctWFY0N0I2bzNCOFZBYjFMZyIsImlhdCI6MTY3NzY3NzY1OSwibmJmIjoxNjc3Njc3NTM5LCJzdWIiOiJhZG1pbjEyMzQiLCJzY29wZSI6bnVsbCwiYXBwcyI6W119.Hji_YpA6FXpMT75hqB4oe_tKhlwyx_rA6PJ2ermpAIvUf8gDG1YE-nB3Wuotk8K2ptkA4GjmSBb5QH4Zx9dxgXf-ER3BEiJOl9fAN2KK9XBEEefuFKHvTmyr4GhYJytwMABcojdVTuUricgdrMbKRdm9WnenV5PXwu_Sv0ezMjN5mwHFxECzNf22Qjlv-9rty8WiPgNoZ7e_6dMJcoVO1f6URYWzE74PbY_t2V1_2B77G06JhlK-KV_rGQnzZ0uPbOi7HnkT2Zs2b1w12yrYQQlUU0cTfFD6PKeuSPpkYSTwioRNiGW3mfFnPiIA3_A20r7KnGoFgXmkfdGicyLCOg";
+    QJsonObject object; 
+    object.insert("key","value");
+    QJsonObject filesObj; 
+    filesObj.insert("thumbnail","/home/coco/Downloads/REMASTERED (1).png");
+    object.insert("files",filesObj);
+
+    const QJsonDocument document(object);
+
+    const auto url = this->request_ptr->buildUrl({},path);
+    EXPECT_NO_THROW(this->request_ptr->makeMultiPutRequest(url,idToken,document));
+    EXPECT_FALSE(this->request_ptr->makeMultiPutRequest(url,idToken,document));
+}
+
+TEST_F(MakeRequestTests,multipartPutValidFilePath){
+    const auto path = "/post";
+    const QString idToken = "eyJ0eXAiOiJKV1QiLCJraWQiOiJyaWpwdHZxYnlrZXF4c2F0IiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2F1LWNvbGxlY3QuY29tIiwiYXVkIjoiQVVfQ09MTEVDVCIsImV4cCI6MTY3NzY3OTQ1OSwianRpIjoiMl80VnctWFY0N0I2bzNCOFZBYjFMZyIsImlhdCI6MTY3NzY3NzY1OSwibmJmIjoxNjc3Njc3NTM5LCJzdWIiOiJhZG1pbjEyMzQiLCJzY29wZSI6bnVsbCwiYXBwcyI6W119.Hji_YpA6FXpMT75hqB4oe_tKhlwyx_rA6PJ2ermpAIvUf8gDG1YE-nB3Wuotk8K2ptkA4GjmSBb5QH4Zx9dxgXf-ER3BEiJOl9fAN2KK9XBEEefuFKHvTmyr4GhYJytwMABcojdVTuUricgdrMbKRdm9WnenV5PXwu_Sv0ezMjN5mwHFxECzNf22Qjlv-9rty8WiPgNoZ7e_6dMJcoVO1f6URYWzE74PbY_t2V1_2B77G06JhlK-KV_rGQnzZ0uPbOi7HnkT2Zs2b1w12yrYQQlUU0cTfFD6PKeuSPpkYSTwioRNiGW3mfFnPiIA3_A20r7KnGoFgXmkfdGicyLCOg";
+    QJsonObject object; 
+    object.insert("key","value");
+    QJsonObject filesObj; 
+    filesObj.insert("thumbnail","/home/coco/Downloads/AU-PAY REMASTERED (1).png");
+    object.insert("files",filesObj);
+
+    const QJsonDocument document(object);
+
+    const auto url = this->request_ptr->buildUrl({},path);
+    EXPECT_NO_THROW(this->request_ptr->makeMultiPutRequest(url,idToken,document));
+    EXPECT_TRUE(this->request_ptr->makeMultiPutRequest(url,idToken,document));
 }
 

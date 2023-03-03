@@ -48,7 +48,7 @@ public:
 	QNetworkReply* makeMultiPartPostRequest(const QUrl& url, const QString& idToken,
 	                                        const QJsonDocument& document) const;
 
-	QNetworkReply* makeMultiPutPostRequest(const QUrl& url, const QString& idToken,
+	QNetworkReply* makeMultiPutRequest(const QUrl& url, const QString& idToken,
 	                                       const QJsonDocument& document) const;
 
 	QNetworkReply* makeJsonPostRequest(const QUrl& url, const QString& idToken,
