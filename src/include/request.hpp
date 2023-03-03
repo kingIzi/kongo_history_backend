@@ -12,6 +12,7 @@
 #include <QPair>
 #include <QByteArray>
 #include <QHttpPart>
+#include <QHttpMultiPart>
 
 
 #include <QJsonObject>
@@ -27,7 +28,8 @@ private:
 	bool isOperating;
 	static const char* URL_FORMAT_REGEX;
 private:
-	const QList<QHttpPart> buildRequestHttpParts(const QJsonDocument& document) const;
+	const QList<QHttpPart> buildRequestHttpParts(const QJsonDocument& document,QHttpMultiPart* multiPart) const;
+	void appendHttpFilePart(QList<QHttpPart>& parts,const QJsonObject& filesObj,QHttpMultiPart* multiPart) const;
 public:
 	//constructor destructor
 	explicit Request(const QString& baseUrl, QObject* parent = nullptr);

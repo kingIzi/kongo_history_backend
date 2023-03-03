@@ -315,7 +315,7 @@ TEST_F(MakeRequestTests,multipartPostInvalidFilePath){
     QJsonObject object; 
     object.insert("key","value");
     QJsonObject filesObj; 
-    filesObj.insert("thumbnail","C:/Users/scott/OneDrive/Documents/Development/c++/mpaVita.mp4");
+    filesObj.insert("thumbnail","C:/Users/scott/OneDrive/Documents/Development/c++/kongo_history_backend/ain.cpp");
     object.insert("files",filesObj);
 
     const QJsonDocument document(object);
@@ -331,7 +331,7 @@ TEST_F(MakeRequestTests,multipartPostValidFilePath){
     QJsonObject object; 
     object.insert("key","value");
     QJsonObject filesObj; 
-    filesObj.insert("thumbnail","C:/Users/scott/OneDrive/Documents/Development/c++/kimpaVita.mp4");
+    filesObj.insert("thumbnail","C:/Users/scott/OneDrive/Documents/Development/c++/kongo_history_backend/main.cpp");
     object.insert("files",filesObj);
 
     const QJsonDocument document(object);

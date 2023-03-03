@@ -5,7 +5,6 @@
 #include <QRegularExpression>
 #include <QDebug>
 #include <QUrlQuery>
-#include <QHttpMultiPart>
 #include <QNetworkRequest>
 #include <QVariantMap>
 #include <QMimeDatabase>
@@ -85,10 +84,19 @@ QNetworkReply* Request::makeMultiPartPostRequest(const QUrl& url, const QString&
 	if (document.isEmpty())
 		return nullptr;
 
-	const auto parts = this->buildRequestHttpParts(document);
+	auto * multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+	const auto parts = this->buildRequestHttpParts(document,multiPart);
+	if (parts.isEmpty() && !document.object().value("files").toObject().isEmpty())
+		return nullptr;
 
+	std::for_each(parts.begin(),parts.end(),[multiPart](const QHttpPart& part) { multiPart->append(part); });
+	QNetworkRequest request(url);
+	const auto headerBearerToken = QString("Bearer %1").arg(idToken);
+	request.setRawHeader(QByteArray("Authorization"),headerBearerToken.toUtf8());
 
-	return nullptr;
+	const auto reply = this->manager->post(request,multiPart);
+	multiPart->setParent(reply);
+	return reply;
 }
 
 QNetworkReply* Request::makeMultiPutPostRequest(const QUrl& url, const QString& idToken, const QJsonDocument& document) const {
@@ -141,30 +149,51 @@ const QByteArray Request::buildRawJsonFromDocument(const QJsonDocument& document
 	return ((QByteArray) document.toJson()).insert(0, "form-data; ");
 }
 
-const QList<QHttpPart> Request::buildRequestHttpParts(const QJsonDocument& document) const {
+void Request::appendHttpFilePart(QList<QHttpPart>& parts, const QJsonObject& filesObj,QHttpMultiPart* multiPart) const {
+	if (!filesObj.isEmpty()) {
+		for (const auto& fileKey : filesObj.keys()) {
+			qDebug() << "IS FILE: " << filesObj.value(fileKey).toString();
+			QFileInfo fileInfo(filesObj.value(fileKey).toString());
+			if (!fileInfo.isFile())
+				throw std::invalid_argument("Error! MultiPartFile not found.");
+
+			QVariantMap fileData;
+			fileData.insert(fileKey, fileInfo.fileName());
+			QHttpPart filePart;
+			filePart.setHeader(QNetworkRequest::ContentTypeHeader, QMimeDatabase().mimeTypeForFile(fileInfo.absoluteFilePath()).name());
+			filePart.setHeader(QNetworkRequest::ContentDispositionHeader,
+			                   this->buildRawJsonFromDocument(QJsonDocument::fromVariant(fileData)));
+			auto * file = new QFile(fileInfo.absoluteFilePath());
+			if (file->open(QIODevice::ReadOnly))
+				filePart.setBodyDevice(file);
+			file->setParent(multiPart);
+			parts.push_back(filePart);
+		}
+	}
+}
+
+const QList<QHttpPart> Request::buildRequestHttpParts(const QJsonDocument& document,QHttpMultiPart* multiPart) const {
 	if (!document.isObject())
-		throw std::runtime_error("Error! Request Body must be an object.");	
+		throw std::runtime_error("Error! Request Body must be an object.");
 
-
-	
-
-
-
-	// const auto keys = object.keys();
-	// const auto files = [](const QJsonObject filesObject) {
-	// 	QList<QHttpPart> files;
-	// 	const auto keys = filesObject.keys();
-	// 	std::for_each(keys.begin(),keys.end(),[filesObject](const QString& value){
-	// 		QJsonObject fileData;
-	// 		fileData.insert(value,filesObject.value(value).toString());
-	// 		const auto document = QJsonDocument::fromVariant(filesObject);
-	// 	});
-	// };
-	// std::for_each(keys.begin(),keys.end(),[object,files](const QString& value){
-	// 	if (value.compare("files") == 0)
-	// 		files(object.value("files").toObject());
-
-	// });
+	auto object = document.object();
+	const auto filesObj = object.value("files").isNull() ? QJsonObject() : object.value("files").toObject();
+	QList<QHttpPart> parts; parts.reserve(object.keys().size());
+	try{
+		this->appendHttpFilePart(parts, filesObj,multiPart);
+	}
+	catch(const std::invalid_argument& err){
+		qDebug(err.what());
+		return QList<QHttpPart>();
+	}
+	if (!filesObj.isEmpty())
+		object.remove("files");
+	const auto rawBody = this->buildRawJsonFromDocument(QJsonDocument::fromVariant(object.toVariantMap()));
+	QHttpPart part;
+	part.setHeader(QNetworkRequest::ContentDispositionHeader, rawBody);
+	part.setBody("DOCUMENT TEXT");
+	parts.push_back(part);
+	return parts;
 }
 
 //slots
