@@ -11,6 +11,8 @@
 #include <QObject>
 #include <QPair>
 #include <QByteArray>
+#include <QHttpPart>
+
 
 #include <QJsonObject>
 #include <QJsonValue>
@@ -24,6 +26,8 @@ private:
 	std::unique_ptr<QNetworkAccessManager> manager;
 	bool isOperating;
 	static const char* URL_FORMAT_REGEX;
+private:
+	const QList<QHttpPart> buildRequestHttpParts(const QJsonDocument& document) const;
 public:
 	//constructor destructor
 	explicit Request(const QString& baseUrl, QObject* parent = nullptr);
@@ -55,7 +59,7 @@ public:
 
 	//helper
 	const QUrl buildUrl(const QList<QPair<QString, QString>>& queries, const QString& path) const;
-	const QByteArray getRawJsonFromDocument(const QJsonDocument& document) const;
+	const QByteArray buildRawJsonFromDocument(const QJsonDocument& document) const;
 signals:
 	void response(const QJsonDocument httpDataResponse);
 public slots:

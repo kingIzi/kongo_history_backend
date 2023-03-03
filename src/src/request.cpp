@@ -5,6 +5,17 @@
 #include <QRegularExpression>
 #include <QDebug>
 #include <QUrlQuery>
+#include <QHttpMultiPart>
+#include <QNetworkRequest>
+#include <QVariantMap>
+#include <QMimeDatabase>
+#include <QMimeType>
+#include <QFileInfo>
+#include <QFile>
+#include <QIODevice>
+
+
+
 
 //init static members
 
@@ -69,27 +80,35 @@ const bool Request::getIsOperating() const {
 //make network requests
 
 QNetworkReply* Request::makeMultiPartPostRequest(const QUrl& url, const QString& idToken, const QJsonDocument& document) const {
+	if (idToken.isEmpty())
+		throw std::runtime_error("NO IDTOKEN FOUND TO REQUEST");
+	if (document.isEmpty())
+		return nullptr;
 
+	const auto parts = this->buildRequestHttpParts(document);
+
+
+	return nullptr;
 }
 
 QNetworkReply* Request::makeMultiPutPostRequest(const QUrl& url, const QString& idToken, const QJsonDocument& document) const {
-	
-}
-
-QNetworkReply* Request::makeJsonPostRequest(const QUrl& url, const QString& idToken,const QJsonDocument& document) const{
 
 }
 
-QNetworkReply* Request::makeJsonPutRequest(const QUrl& url, const QString& idToken,const QJsonDocument& document) const{
+QNetworkReply* Request::makeJsonPostRequest(const QUrl& url, const QString& idToken, const QJsonDocument& document) const {
 
 }
 
-QNetworkReply* Request::makeGetRequest(const QUrl& url,const QString& idToken) const{
+QNetworkReply* Request::makeJsonPutRequest(const QUrl& url, const QString& idToken, const QJsonDocument& document) const {
 
 }
 
-QNetworkReply* Request::makeDeleteRequest(const QUrl& url,const QString& idToken) const{
-	
+QNetworkReply* Request::makeGetRequest(const QUrl& url, const QString& idToken) const {
+
+}
+
+QNetworkReply* Request::makeDeleteRequest(const QUrl& url, const QString& idToken) const {
+
 }
 
 //helpers
@@ -116,10 +135,36 @@ const QUrl Request::buildUrl(const QList<QPair<QString, QString>>& queries, cons
 	return endpoint;
 }
 
-const QByteArray Request::getRawJsonFromDocument(const QJsonDocument& document) const {
+const QByteArray Request::buildRawJsonFromDocument(const QJsonDocument& document) const {
 	if (document.isEmpty())
 		return QByteArray();
-	return ((QByteArray) document.toJson()).insert(0,"form-data; ");
+	return ((QByteArray) document.toJson()).insert(0, "form-data; ");
+}
+
+const QList<QHttpPart> Request::buildRequestHttpParts(const QJsonDocument& document) const {
+	if (!document.isObject())
+		throw std::runtime_error("Error! Request Body must be an object.");	
+
+
+	
+
+
+
+	// const auto keys = object.keys();
+	// const auto files = [](const QJsonObject filesObject) {
+	// 	QList<QHttpPart> files;
+	// 	const auto keys = filesObject.keys();
+	// 	std::for_each(keys.begin(),keys.end(),[filesObject](const QString& value){
+	// 		QJsonObject fileData;
+	// 		fileData.insert(value,filesObject.value(value).toString());
+	// 		const auto document = QJsonDocument::fromVariant(filesObject);
+	// 	});
+	// };
+	// std::for_each(keys.begin(),keys.end(),[object,files](const QString& value){
+	// 	if (value.compare("files") == 0)
+	// 		files(object.value("files").toObject());
+
+	// });
 }
 
 //slots
